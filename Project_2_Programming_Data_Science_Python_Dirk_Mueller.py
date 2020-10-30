@@ -28,6 +28,7 @@ SEC_IN_MIN = 60
 SEC_IN_H = 3600
 STEP_VALUE = 5
 
+
 def basic_info():
     ''' Function that displays the basic information of the csv files:
         - file size in KB
@@ -61,7 +62,8 @@ def basic_info():
             print(temp, 'End Stations:', df['End Station'].nunique())
         else:
             print('The file does not exist!')
-            
+
+
 def get_filters():
     ''' Function to capture the user selections with regard to filters in:
         - city, month and weekday
@@ -95,6 +97,7 @@ def get_filters():
         else:
             print('Your input had neither weekday nor none. Please try again!')
     return city, month, day
+
 
 def load_data(city, month, day):
     """ Function to load the csv files and convert the Start Time and
@@ -139,6 +142,7 @@ def load_data(city, month, day):
         print(temp, df.iloc[:, 0:7].isnull().sum())
     return df
 
+
 def get_5_lines_from_filter(df, city):
     """ Function to print out raw data in steps of 5 rows each
         INPUT: DataFrame of the csv file selected by the user
@@ -168,6 +172,7 @@ def get_5_lines_from_filter(df, city):
         else:
             break
         start_index += 5
+
 
 def most_popular(df):
     ''' Function to print the:
@@ -205,6 +210,7 @@ def most_popular(df):
     print('\n', user_type)
     print('Empty data fields in User Type column: ', nans_type, '\n')
 
+
 def trip_duration(df):
     ''' Function to print the:
         - total travel time in minutes
@@ -217,6 +223,7 @@ def trip_duration(df):
     print('Total rental time (h): ', round(total_travel_time / SEC_IN_H, 3))
     print('Mean rental time (s): ', round((ave_travel_time), 3))
     print('Mean rental time (min): ', round(ave_travel_time / SEC_IN_MIN, 3))
+
 
 def user_info(df):
     ''' Function to print the:
@@ -238,6 +245,7 @@ def user_info(df):
     print('Earliest year of birth: ', df['Birth Year'].min())
     print('Most recent year of birth: ', df['Birth Year'].max())
     print('Most common year of birth: ', df['Birth Year'].mode()[0])
+
 
 def main():
     print('*' * 64)
