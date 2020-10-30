@@ -16,6 +16,12 @@ Bike rental data files from the following three US cities are used in csv format
 
 *Fig 1: Excerpt of code showing the function to read and parse the data in csv format*
 
+Example results after loading the csv and analyzing data, using `groupby()`, `size()` and `sum()`, among other:
+
+![](https://github.com/DirkMueller8/python_bikeshare_project/blob/master/snapshot_1.png)
+
+*Fig 2: Example of output of analysis*
+
 ### Credits
 Book: Data Science with Python, by J. VanderPlas, O'Reilly Media, 2017 (German version)
 
