@@ -10,6 +10,12 @@ This software project fulfills the requirements of project 2 of the Udacity's "P
 ### Files used
 Bike rental data files from the following three US cities are used in csv format: New York City, Washington and Chicago.
 
+### Snapshots of code functionality
+
+![](https://github.com/DirkMueller8/python_bikeshare_project/blob/master/snapshot.png)
+
+*Fig 1: Excerpt of code showing the function to read and parse the data in csv format*
+
 ### Credits
 Book: Data Science with Python, by J. VanderPlas, O'Reilly Media, 2017 (German version)
 
