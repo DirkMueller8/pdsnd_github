@@ -10,9 +10,9 @@ from os import path
 import time
 
 # Data file names that are used by load_data() and basic_info():
-fn_chicago = path.expanduser(r'C:\Users\Dirk2\udacity-git-course\new-git-project\pdsnd_github\chicago.csv')
-fn_washington = path.expanduser(r'C:\Users\Dirk2\udacity-git-course\new-git-project\pdsnd_github\washington.csv')
-fn_NYC = path.expanduser(r'C:\Users\Dirk2\udacity-git-course\new-git-project\pdsnd_github\new_york_city.csv')
+fn_chicago = path.expanduser(r'C:\Users\Dirk2\udacity-git-course\new-git-project\pdsnd_github\.git\.gitignore\chicago.csv')
+fn_washington = path.expanduser(r'C:\Users\Dirk2\udacity-git-course\new-git-project\pdsnd_github\.git\.gitignore\washington.csv')
+fn_NYC = path.expanduser(r'C:\Users\Dirk2\udacity-git-course\new-git-project\pdsnd_github\.git\.gitignore\new_york_city.csv')
 
 # Dictionary to map the file names to city names:
 CITY_DATA = {'chicago': fn_chicago,
@@ -27,6 +27,74 @@ D_DICT = {'mon': 0, 'tue': 1, 'wed': 2, 'thu': 3, 'fri': 4, 'sat': 5, 'sun': 6}
 SEC_IN_MIN = 60
 SEC_IN_H = 3600
 STEP_VALUE = 5
+
+def basic_info():
+    ''' Function that displays the basic information of the csv files:
+        - file size in KB
+        - time needed to load the csv file into memory
+        - Amount of data rows in csv file
+        - Amount of missing values for each column
+    '''
+    for item in CITY_DATA:
+        print('\n')
+        print('*' * 64)
+        temp = 'Basic properties of Bikeshare csv file for'
+        print(temp, item.title().upper(), ':')
+        # Check if file exists:
+        if os.path.exists(CITY_DATA[item]):
+            file_size_KB = round(path.getsize(CITY_DATA[item]) / (1 << 10), 1)
+            print('Size: ', file_size_KB, 'KB')
+            # Measure time to load the file:
+            t0 = time.time()
+            df = pd.read_csv(CITY_DATA[item])
+            t1 = time.time() - t0
+            print('Time for loading the csv file:', round(t1, 5), 's')
+            print('Amount of rows:', len(df))
+            print('\nThe table has the following columns and types:')
+            print(df.dtypes, '\n')
+            if (item == 'new york city') or (item == 'chicago'):
+                print(df[['Trip Duration', 'Birth Year']].describe(), '\n')
+            else:
+                print(df[['Trip Duration']].describe(), '\n')
+            temp = 'Amount of unique'
+            print(temp, 'Start Stations:', df['Start Station'].nunique())
+            print(temp, 'End Stations:', df['End Station'].nunique())
+        else:
+            print('The file does not exist!')
+            
+def get_filters():
+    ''' Function to capture the user selections with regard to filters in:
+        - city, month and weekday
+        OUTPUT: city, month and weekday
+    '''
+    temp = '\nIn the next step you can investigate data from any '
+    temp += 'any of the the three cities with defined criteria for month/day.'
+    print(temp)
+    text_cit = 'Select a city by typing one of the following three characters'
+    text_cit += ' (c: Chicago, n: New York City, w: Washington): '
+    text_month = 'Select a month (jan: January, feb: February, mar = March,\
+ apr: April, may: May, jun: June, or non: None)?:'
+    text_day = 'Select a day (mon: Monday, tue: Tuesday, wed: Wednesday,\
+ thu: Thursday, fri: Friday, sat: Saturday, sun: Sunday, or non: None): '
+    while True:
+        city = input(text_cit)
+        if city.lower() in CITIES.keys():
+            break
+        else:
+            print('No such city. Please try again!')
+    while True:
+        month = input(text_month)
+        if (month.lower() in M_DICT.keys()) or (month.lower() == 'non'):
+            break
+        else:
+            print('Your input had neither month, nor none. Please try again!')
+    while True:
+        day = input(text_day)
+        if (day.lower() in D_DICT.keys()) or (day.lower() == 'non'):
+            break
+        else:
+            print('Your input had neither weekday nor none. Please try again!')
+    return city, month, day
 
 def load_data(city, month, day):
     """ Function to load the csv files and convert the Start Time and
@@ -170,74 +238,6 @@ def user_info(df):
     print('Earliest year of birth: ', df['Birth Year'].min())
     print('Most recent year of birth: ', df['Birth Year'].max())
     print('Most common year of birth: ', df['Birth Year'].mode()[0])
-
-def get_filters():
-    ''' Function to capture the user selections with regard to filters in:
-        - city, month and weekday
-        OUTPUT: city, month and weekday
-    '''
-    temp = '\nIn the next step you can investigate data from any '
-    temp += 'any of the the three cities with defined criteria for month/day.'
-    print(temp)
-    text_cit = 'Select a city by typing one of the following three characters'
-    text_cit += ' (c: Chicago, n: New York City, w: Washington): '
-    text_month = 'Select a month (jan: January, feb: February, mar = March,\
- apr: April, may: May, jun: June, or non: None)?:'
-    text_day = 'Select a day (mon: Monday, tue: Tuesday, wed: Wednesday,\
- thu: Thursday, fri: Friday, sat: Saturday, sun: Sunday, or non: None): '
-    while True:
-        city = input(text_cit)
-        if city.lower() in CITIES.keys():
-            break
-        else:
-            print('No such city. Please try again!')
-    while True:
-        month = input(text_month)
-        if (month.lower() in M_DICT.keys()) or (month.lower() == 'non'):
-            break
-        else:
-            print('Your input had neither month, nor none. Please try again!')
-    while True:
-        day = input(text_day)
-        if (day.lower() in D_DICT.keys()) or (day.lower() == 'non'):
-            break
-        else:
-            print('Your input had neither weekday nor none. Please try again!')
-    return city, month, day
-
-def basic_info():
-    ''' Function that displays the basic information of the csv files:
-        - file size in KB
-        - time needed to load the csv file into memory
-        - Amount of data rows in csv file
-        - Amount of missing values for each column
-    '''
-    for item in CITY_DATA:
-        print('\n')
-        print('*' * 64)
-        temp = 'Basic properties of Bikeshare csv file for'
-        print(temp, item.title().upper(), ':')
-        # Check if file exists:
-        if os.path.exists(CITY_DATA[item]):
-            file_size_KB = round(path.getsize(CITY_DATA[item]) / (1 << 10), 1)
-            print('Size: ', file_size_KB, 'KB')
-            # Measure time to load the file:
-            t0 = time.time()
-            df = pd.read_csv(CITY_DATA[item])
-            t1 = time.time() - t0
-            print('Time for loading the csv file:', round(t1, 5), 's')
-            print('Amount of rows:', len(df))
-            print('\nThe table has the following columns and types:')
-            print(df.dtypes, '\n')
-            if (item == 'new york city') or (item == 'chicago'):
-                print(df[['Trip Duration', 'Birth Year']].describe(), '\n')
-            else:
-                print(df[['Trip Duration']].describe(), '\n')
-            temp = 'Amount of unique'
-            print(temp, 'Start Stations:', df['Start Station'].nunique())
-            print(temp, 'End Stations:', df['End Station'].nunique())
-        else:
-            print('The file does not exist!')
 
 def main():
     print('*' * 64)
